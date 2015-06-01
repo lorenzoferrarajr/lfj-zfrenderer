@@ -1,0 +1,32 @@
+{
+    "name" :       "lorenzoferrarajr/lfj-zfrenderer",
+    "description": "A utility to render PHP view scripts using the Zend Framework 2 PhpRenderer",
+    "type":        "library",
+    "license":     "MIT",
+    "homepage":    "https://github.com/lorenzoferrarajr/lfj-zfrenderer",
+    "authors": [
+        {
+            "name":     "Lorenzo Ferrara",
+            "email":    "lorenzoferrarajr@gmail.com",
+            "homepage": "http://lorenzoferrara.net/"
+        }
+    ],
+    "require": {
+        "zendframework/zend-view":           "2.4.*",
+        "zendframework/zend-servicemanager": "2.4.*",
+        "zendframework/zend-filter":         "2.4.*"
+    },
+    "require-dev": {
+        "phpunit/PHPUnit": "~4.6"
+    },
+    "autoload": {
+        "psr-0": {
+            "Lfj\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
