@@ -4,5 +4,6 @@ php:
 install:
   - composer install --dev
 before_script:
+  - sed -i 's/short_open_tag = Off/short_open_tag = On/' ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - cd tests
 script: ./run-tests.sh
