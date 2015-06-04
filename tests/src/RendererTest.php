@@ -3,7 +3,7 @@
 use Lfj\ZfRenderer\Service\Renderer;
 use Zend\View\Resolver;
 
-class StackTest extends PHPUnit_Framework_TestCase
+class RendererTest extends PHPUnit_Framework_TestCase
 {
     public function testRenderSimpleView()
     {
