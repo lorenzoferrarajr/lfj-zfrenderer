@@ -1,3 +1,3 @@
 #!/bin/sh
 
-../vendor/bin/phpunit --bootstrap _autoload.php
+../vendor/bin/phpunit --bootstrap bootstrap.php
