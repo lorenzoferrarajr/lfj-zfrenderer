@@ -25,6 +25,11 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
      */
     private $events;
 
+    /**
+     * @var array
+     */
+    private $resolvers;
+
     public function __construct()
     {
         $this->helperPluginManager = new HelperPluginManager();
