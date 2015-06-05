@@ -5,7 +5,7 @@ use Zend\View\Resolver;
 
 class RendererTest extends PHPUnit_Framework_TestCase
 {
-    public function testRenderSimpleView()
+    public function testRenderFileWithoutOptionalParameters()
     {
         $template = realpath('view/template-simple.phtml');
         $expectedContent = file_get_contents($template);
@@ -17,7 +17,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedContent, $renderedContent->getResponse()->getContent());
     }
 
-    public function testRenderMediumView()
+    public function testRenderFileWithParameters()
     {
         $template = realpath('view/template-medium.phtml');
         $expectedContent = 'hello world';
@@ -29,7 +29,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedContent, $renderedContent->getResponse()->getContent());
     }
 
-    public function testRenderHardView()
+    public function testRenderFileContainingViewPartial()
     {
         $template = realpath('view/template-hard.phtml');
         $expectedContent = 'hello world';
