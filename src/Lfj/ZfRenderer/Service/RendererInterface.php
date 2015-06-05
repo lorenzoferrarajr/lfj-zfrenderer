@@ -34,4 +34,9 @@ interface RendererInterface
      * @param HelperPluginManager $helperPluginManager
      */
     public function setHelperPluginManager(HelperPluginManager $helperPluginManager);
+
+    /**
+     * @return HelperPluginManager
+     */
+    public function getHelperPluginManager();
 }

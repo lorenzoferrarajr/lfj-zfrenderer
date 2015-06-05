@@ -116,4 +116,12 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
     {
         $this->helperPluginManager = $helperPluginManager;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getHelperPluginManager()
+    {
+        return $this->helperPluginManager;
+    }
 }
