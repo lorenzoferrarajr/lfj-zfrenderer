@@ -33,6 +33,7 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
     public function __construct()
     {
         $this->helperPluginManager = new HelperPluginManager();
+        $this->events = new EventManager();
         $this->resolvers = array();
     }
 
@@ -107,10 +108,6 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
      */
     public function getEventManager()
     {
-        if (!$this->events instanceof EventManagerInterface) {
-            $this->setEventManager(new EventManager());
-        }
-
         return $this->events;
     }
 
