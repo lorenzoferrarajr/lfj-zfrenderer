@@ -1,8 +1,0 @@
-<phpunit bootstrap="./bootstrap.php" colors="true">
-    <testsuites>
-        <testsuite name="Lfj\\Renderer Test Suite">
-            <directory>./src</directory>
-            <exclude>./view</exclude>
-        </testsuite>
-    </testsuites>
-</phpunit>

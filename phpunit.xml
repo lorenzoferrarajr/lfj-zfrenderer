@@ -1,0 +1,13 @@
+<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="Lfj\\Renderer Test Suite">
+            <directory>./tests/src</directory>
+            <exclude>./tests/view</exclude>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
