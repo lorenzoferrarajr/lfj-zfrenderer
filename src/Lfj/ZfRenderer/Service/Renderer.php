@@ -84,6 +84,7 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
         $strategy = new PhpRendererStrategy($renderer);
 
         $view = new View();
+        $view->setEventManager($this->events);
         $view->setResponse(new Response());
         $view->getEventManager()->attach($strategy);
 
