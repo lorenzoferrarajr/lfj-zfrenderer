@@ -2,6 +2,7 @@
 
 use Lfj\ZfRenderer\Service\Renderer;
 use Zend\EventManager\EventManager;
+use Zend\View\HelperPluginManager;
 use Zend\View\Resolver;
 
 class RendererTest extends PHPUnit_Framework_TestCase
@@ -52,6 +53,15 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $renderer->setEventManager($eventManager);
 
         $this->assertSame($eventManager, $renderer->getEventManager());
+    }
+
+    public function testHelperPluginManagerSetterAndGetter()
+    {
+        $helperPluginManager = new HelperPluginManager();
+        $renderer = new Renderer();
+        $renderer->setHelperPluginManager($helperPluginManager);
+
+        $this->assertSame($helperPluginManager, $renderer->getHelperPluginManager());
     }
 
 }
