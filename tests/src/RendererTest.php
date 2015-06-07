@@ -1,6 +1,7 @@
 <?php
 
 use Lfj\ZfRenderer\Service\Renderer;
+use Zend\EventManager\EventManager;
 use Zend\View\Resolver;
 
 class RendererTest extends PHPUnit_Framework_TestCase
@@ -42,6 +43,15 @@ class RendererTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('Zend\Stdlib\Response', get_class($renderedContent->getResponse()));
         $this->assertEquals($expectedContent, $renderedContent->getResponse()->getContent());
+    }
+
+    public function testEventManagerSetterAndGetter()
+    {
+        $eventManager = new EventManager();
+        $renderer = new Renderer();
+        $renderer->setEventManager($eventManager);
+
+        $this->assertSame($eventManager, $renderer->getEventManager());
     }
 
 }
