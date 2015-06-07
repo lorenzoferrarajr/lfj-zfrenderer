@@ -64,4 +64,31 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $this->assertSame($helperPluginManager, $renderer->getHelperPluginManager());
     }
 
+    public function testEventsAreTriggered()
+    {
+        $template = realpath('view/template-simple.phtml');
+        $expectedContent = file_get_contents($template);
+
+        $renderer = new Renderer();
+
+        $eventsToTrigger = [
+            \Zend\View\ViewEvent::EVENT_RENDERER,
+            \Zend\View\ViewEvent::EVENT_RENDERER_POST,
+            \Zend\View\ViewEvent::EVENT_RESPONSE,
+        ];
+
+        $triggeredEvents = [];
+        foreach ($eventsToTrigger as $e) {
+            $renderer->getEventManager()->attach($e, function(\Zend\View\ViewEvent $e) use (&$triggeredEvents) {
+                $triggeredEvents[] = $e->getName();
+            });
+        }
+
+        $this->assertEquals($eventsToTrigger, $renderer->getEventManager()->getEvents());
+
+        $renderedContent = $renderer->render($template);
+
+        $this->assertEquals($eventsToTrigger, $triggeredEvents);
+        $this->assertEquals($expectedContent, $renderedContent->getResponse()->getContent());
+    }
 }
