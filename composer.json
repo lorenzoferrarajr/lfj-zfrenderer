@@ -27,7 +27,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.0.x-dev",
+            "dev-no-shared-events": "0.0.x-dev"
         }
     }
 }
