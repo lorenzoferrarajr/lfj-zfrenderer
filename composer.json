@@ -21,8 +21,8 @@
         "phpunit/PHPUnit": "~4.6"
     },
     "autoload": {
-        "psr-0": {
-            "Lfj\\": "src/"
+        "psr-4": {
+            "Lfj\\ZfRenderer\\": "src/"
         }
     },
     "extra": {
