@@ -14,6 +14,22 @@ The suggested installation method is via [composer](https://getcomposer.org/):
 composer require lorenzoferrarajr/lfj-zfrenderer
 ```
 
+## Immutability
+
+An object instantiated from the `Lfj\ZfRenderer\Service\Renderer` class is immutable.
+
+For example, the following code is used to add a custom `HelperPluginManager` instance to the `$renderer` object
+
+```php
+$helperPluginManager = new \Zend\View\HelperPluginManager();
+$helperPluginManager->setService('name', new PrintName());
+
+$renderer = new \Lfj\ZfRenderer\Service\Renderer();
+$rendererNew = $renderer->withHelperPluginManager($helperPluginManager);
+```
+
+Calling `$renderer->withHelperPluginManager($helperPluginManager);` does not affect the `$renderer` object. Instead a cloned object of `$renderer` containing the specified `$helperPluginManager` is returned.
+
 ## Usage
 
 The terms _template_ and _view script_ are used interchangeably.
@@ -67,7 +83,7 @@ echo $view->getResponse()->getContent();
 
 ### Including partials
 
-It could be useful to include other view scripts from within another view script. This can be done passing a list of template path resolvers as the third argument of the `render` method.
+It could be useful to include other view scripts from within another view script. This can be done passing a list of template path resolvers to the `withResolvers` method. The method returns a new instance of `$renderer`.
 
 This is the `view/hello-partial.phtml` view script which includes a partial
 
@@ -90,10 +106,11 @@ $templatePathStack = new \Zend\View\Resolver\TemplatePathStack();
 $templatePathStack->addPath(realpath('view'));
 
 $renderer = new \Lfj\ZfRenderer\Service\Renderer();
+$renderer = $renderer->withResolvers(array($templatePathStack));
+
 $renderedContent = $renderer->render(
     $template,
-    array('name' => 'World'),
-    array($templatePathStack)
+    array('name' => 'World')
 );
 
 echo $renderedContent->getResponse()->getContent();
@@ -135,10 +152,10 @@ $helperPluginManager = new \Zend\View\HelperPluginManager();
 $helperPluginManager->setService('name', new PrintName());
 
 $renderer = new \Lfj\ZfRenderer\Service\Renderer();
-$renderer->setHelperPluginManager($helperPluginManager);
-
-$renderedContent = $renderer->render($template);
+$renderer = $renderer->withHelperPluginManager($helperPluginManager);
+$renderedContent = $renderer->render(
+    $template
+);
 
 echo $renderedContent->getResponse()->getContent();
 ```
-

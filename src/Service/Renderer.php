@@ -3,7 +3,6 @@
 namespace Lfj\ZfRenderer\Service;
 
 use Zend\EventManager\EventManager;
-use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Stdlib\Response;
 use Zend\View\HelperPluginManager;
@@ -13,7 +12,7 @@ use Zend\View\Resolver;
 use Zend\View\Strategy\PhpRendererStrategy;
 use Zend\View\View;
 
-final class Renderer implements RendererInterface, EventManagerAwareInterface
+final class Renderer implements RendererInterface
 {
     /**
      * @var HelperPluginManager
@@ -30,11 +29,15 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
      */
     private $resolvers;
 
-    public function __construct()
+    public function __construct(
+        HelperPluginManager $helperPluginManager = null,
+        EventManager $events = null,
+        array $resolvers = array()
+    )
     {
-        $this->helperPluginManager = new HelperPluginManager();
-        $this->events = new EventManager();
-        $this->resolvers = array();
+        $this->events = null !== $events ? $events : new EventManager();
+        $this->helperPluginManager = null !== $helperPluginManager ? $helperPluginManager : new HelperPluginManager();
+        $this->resolvers = $resolvers;
     }
 
     /**
@@ -42,9 +45,9 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
      *
      * @inheritdoc
      */
-    public function render($template, array $variables = array(), array $resolvers = array())
+    public function render($template, array $variables = array())
     {
-        $view = $this->createView('view', $template, $resolvers);
+        $view = $this->createView('view', $template);
 
         $model = new ViewModel();
         $model->setVariables($variables);
@@ -58,10 +61,9 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
     /**
      * @param $name
      * @param $path
-     * @param $resolvers
      * @return View
      */
-    private function createView($name, $path, $resolvers)
+    private function createView($name, $path)
     {
         $ar = new Resolver\AggregateResolver();
 
@@ -73,7 +75,7 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
 
         $ar->attach($map);
 
-        foreach ($resolvers as $r) {
+        foreach ($this->resolvers as $r) {
             $ar->attach($r);
         }
 
@@ -84,7 +86,7 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
         $strategy = new PhpRendererStrategy($renderer);
 
         $view = new View();
-        $view->setEventManager($this->events);
+        $view->setEventManager(clone $this->events);
         $view->setResponse(new Response());
         $view->getEventManager()->attach($strategy);
 
@@ -94,37 +96,49 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
     /**
      * @inheritdoc
      */
-    public function setEventManager(EventManagerInterface $events)
+    public function withEventManager(EventManagerInterface $events)
     {
+        $clone = clone $this;
+
         $events->setIdentifiers(array(
             __CLASS__,
             get_class($this),
         ));
 
-        $this->events = $events;
+        $clone->events = $events;
+
+        return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getEventManager()
+    public function withHelperPluginManager(HelperPluginManager $helperPluginManager)
     {
-        return $this->events;
+        $clone = clone $this;
+        $clone->helperPluginManager = $helperPluginManager;
+        return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function setHelperPluginManager(HelperPluginManager $helperPluginManager)
+    public function withResolvers(array $resolvers)
     {
-        $this->helperPluginManager = $helperPluginManager;
+        $clone = clone $this;
+        $clone->resolvers = $resolvers;
+        return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getHelperPluginManager()
+    public function __clone()
     {
-        return $this->helperPluginManager;
+        $this->events = clone $this->events;
+
+        $resolvers = array();
+        foreach ($this->resolvers as $r) {
+            $resolvers[] = clone ($r);
+        }
+
+        $this->resolvers = $resolvers;
     }
 }

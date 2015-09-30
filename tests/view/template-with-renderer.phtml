@@ -1,0 +1,4 @@
+<?php
+$view = $renderer->render(__DIR__.'/partial/name.phtml', array('name' => $name));
+?>
+hello <?=$view->getResponse()->getContent();?>

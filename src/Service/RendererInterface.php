@@ -12,31 +12,28 @@ interface RendererInterface
     /**
      * @param $template
      * @param array $variables
-     * @param array $resolvers collection of Zend\View\Resolver\ResolverInterface objects
      * @return ViewModel
      */
-    public function render($template, array $variables = array(), array $resolvers = null);
+    public function render($template, array $variables = array());
     /**
      * @return EventManagerInterface
      */
 
     /**
      * @param EventManagerInterface $events
+     * @return Renderer
      */
-    public function setEventManager(EventManagerInterface $events);
-
-    /**
-     * @return EventManagerInterface
-     */
-    public function getEventManager();
+    public function withEventManager(EventManagerInterface $events);
 
     /**
      * @param HelperPluginManager $helperPluginManager
+     * @return Renderer
      */
-    public function setHelperPluginManager(HelperPluginManager $helperPluginManager);
+    public function withHelperPluginManager(HelperPluginManager $helperPluginManager);
 
     /**
-     * @return HelperPluginManager
+     * @param array $resolvers collection of Zend\View\Resolver\ResolverInterface objects
+     * @return Renderer
      */
-    public function getHelperPluginManager();
+    public function withResolvers(array $resolvers);
 }

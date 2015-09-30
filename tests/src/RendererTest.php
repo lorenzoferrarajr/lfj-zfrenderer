@@ -40,55 +40,35 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $templatePathStack->addPath(realpath('view'));
 
         $renderer = new Renderer();
-        $renderedContent = $renderer->render($template, array('name' => 'world'), array($templatePathStack));
+        $rendererWithResolvers = $renderer->withResolvers(array($templatePathStack));
+
+        $renderedContent = $rendererWithResolvers->render($template, array('name' => 'world'));
 
         $this->assertEquals('Zend\Stdlib\Response', get_class($renderedContent->getResponse()));
         $this->assertEquals($expectedContent, $renderedContent->getResponse()->getContent());
     }
 
-    public function testEventManagerSetterAndGetter()
+    public function testRenderingAnotherTemplateInsideATemplate()
     {
-        $eventManager = new EventManager();
-        $renderer = new Renderer();
-        $renderer->setEventManager($eventManager);
+        $expectedContent = 'hello world';
 
-        $this->assertSame($eventManager, $renderer->getEventManager());
-    }
+        $content = null;
+        $template = realpath('view/template-with-renderer.phtml');
 
-    public function testHelperPluginManagerSetterAndGetter()
-    {
-        $helperPluginManager = new HelperPluginManager();
-        $renderer = new Renderer();
-        $renderer->setHelperPluginManager($helperPluginManager);
-
-        $this->assertSame($helperPluginManager, $renderer->getHelperPluginManager());
-    }
-
-    public function testEventsAreTriggered()
-    {
-        $template = realpath('view/template-simple.phtml');
-        $expectedContent = file_get_contents($template);
+        $templatePathStack = new Resolver\TemplatePathStack();
+        $templatePathStack->addPath(realpath('view'));
 
         $renderer = new Renderer();
+        $rendererWithTemplatePathStack = $renderer->withResolvers(array($templatePathStack));
 
-        $eventsToTrigger = [
-            \Zend\View\ViewEvent::EVENT_RENDERER,
-            \Zend\View\ViewEvent::EVENT_RENDERER_POST,
-            \Zend\View\ViewEvent::EVENT_RESPONSE,
-        ];
+        $viewVariables = array(
+            'name' => 'world',
+            'renderer' => $rendererWithTemplatePathStack,
+        );
 
-        $triggeredEvents = [];
-        foreach ($eventsToTrigger as $e) {
-            $renderer->getEventManager()->attach($e, function(\Zend\View\ViewEvent $e) use (&$triggeredEvents) {
-                $triggeredEvents[] = $e->getName();
-            });
-        }
+        $renderedContent = $rendererWithTemplatePathStack->render($template, $viewVariables);
 
-        $this->assertEquals($eventsToTrigger, $renderer->getEventManager()->getEvents());
-
-        $renderedContent = $renderer->render($template);
-
-        $this->assertEquals($eventsToTrigger, $triggeredEvents);
+        $this->assertEquals('Zend\Stdlib\Response', get_class($renderedContent->getResponse()));
         $this->assertEquals($expectedContent, $renderedContent->getResponse()->getContent());
     }
 }
