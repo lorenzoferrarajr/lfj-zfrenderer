@@ -1,6 +1,6 @@
 <?php
 
-use Lfj\ZfRenderer\Service\Renderer;
+use Lfj\ZfRenderer\Renderer;
 use Zend\EventManager\EventManager;
 use Zend\View\Resolver;
 
@@ -11,7 +11,7 @@ class EventsTest extends PHPUnit_Framework_TestCase
         $template = realpath('view/template-simple.phtml');
         $expectedContent = file_get_contents($template);
 
-        $class = new ReflectionClass('Lfj\ZfRenderer\Service\Renderer');
+        $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
         $property = $class->getProperty("events");
         $property->setAccessible(true);
 

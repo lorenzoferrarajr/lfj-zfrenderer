@@ -1,6 +1,6 @@
 <?php
 
-use Lfj\ZfRenderer\Service\Renderer;
+use Lfj\ZfRenderer\Renderer;
 use Zend\EventManager\EventManager;
 use Zend\View\HelperPluginManager;
 use Zend\View\Resolver;
@@ -12,7 +12,7 @@ class ImmutabilityTest extends PHPUnit_Framework_TestCase
         $eventManager = new EventManager();
         $helperPluginManager = new HelperPluginManager();
 
-        $class = new ReflectionClass('Lfj\ZfRenderer\Service\Renderer');
+        $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
         $eventsProperty = $class->getProperty("events");
         $eventsProperty->setAccessible(true);
         $helperPluginManagerProperty = $class->getProperty("helperPluginManager");
@@ -30,7 +30,7 @@ class ImmutabilityTest extends PHPUnit_Framework_TestCase
         $eventManager1 = new EventManager();
         $eventManager2 = new EventManager();
 
-        $class = new ReflectionClass('Lfj\ZfRenderer\Service\Renderer');
+        $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
         $property = $class->getProperty("events");
         $property->setAccessible(true);
 
@@ -48,7 +48,7 @@ class ImmutabilityTest extends PHPUnit_Framework_TestCase
         $helperPluginManager1 = new HelperPluginManager();
         $helperPluginManager2 = new HelperPluginManager();
 
-        $class = new ReflectionClass('Lfj\ZfRenderer\Service\Renderer');
+        $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
         $property = $class->getProperty("helperPluginManager");
         $property->setAccessible(true);
 
@@ -73,7 +73,7 @@ class ImmutabilityTest extends PHPUnit_Framework_TestCase
         $resolvers1 = array($templatePathStack1);
         $resolvers2 = array($templatePathStack2);
 
-        $class = new ReflectionClass('Lfj\ZfRenderer\Service\Renderer');
+        $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
         $property = $class->getProperty("resolvers");
         $property->setAccessible(true);
 

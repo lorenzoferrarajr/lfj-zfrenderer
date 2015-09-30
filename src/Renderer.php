@@ -1,6 +1,6 @@
 <?php
 
-namespace Lfj\ZfRenderer\Service;
+namespace Lfj\ZfRenderer;
 
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerInterface;

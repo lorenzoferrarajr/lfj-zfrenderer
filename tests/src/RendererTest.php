@@ -1,6 +1,6 @@
 <?php
 
-use Lfj\ZfRenderer\Service\Renderer;
+use Lfj\ZfRenderer\Renderer;
 use Zend\EventManager\EventManager;
 use Zend\View\HelperPluginManager;
 use Zend\View\Resolver;

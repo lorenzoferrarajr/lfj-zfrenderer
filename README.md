@@ -16,7 +16,7 @@ composer require lorenzoferrarajr/lfj-zfrenderer
 
 ## Immutability
 
-An object instantiated from the `Lfj\ZfRenderer\Service\Renderer` class is immutable.
+An object instantiated from the `Lfj\ZfRenderer\Renderer` class is immutable.
 
 For example, the following code is used to add a custom `HelperPluginManager` instance to the `$renderer` object
 
@@ -24,7 +24,7 @@ For example, the following code is used to add a custom `HelperPluginManager` in
 $helperPluginManager = new \Zend\View\HelperPluginManager();
 $helperPluginManager->setService('name', new PrintName());
 
-$renderer = new \Lfj\ZfRenderer\Service\Renderer();
+$renderer = new \Lfj\ZfRenderer\Renderer();
 $rendererNew = $renderer->withHelperPluginManager($helperPluginManager);
 ```
 
@@ -50,7 +50,7 @@ To render the template, the path to the view script file must be passed as first
 ```php
 $template = realpath('view/hello-world.phtml');
 
-$renderer = new \Lfj\ZfRenderer\Service\Renderer();
+$renderer = new \Lfj\ZfRenderer\Renderer();
 
 /** @var \Zend\View\View $view */
 $view = $renderer->render($template);
@@ -75,7 +75,7 @@ To pass data to the view script, an associative array must be provided as the se
 ```php
 $template = realpath('view/hello-name.phtml');
 
-$renderer = new \Lfj\ZfRenderer\Service\Renderer();
+$renderer = new \Lfj\ZfRenderer\Renderer();
 $view = $renderer->render($template, array('name' => 'World'));
 
 echo $view->getResponse()->getContent();
@@ -105,7 +105,7 @@ $template = realpath('view/hello-partial.phtml');
 $templatePathStack = new \Zend\View\Resolver\TemplatePathStack();
 $templatePathStack->addPath(realpath('view'));
 
-$renderer = new \Lfj\ZfRenderer\Service\Renderer();
+$renderer = new \Lfj\ZfRenderer\Renderer();
 $renderer = $renderer->withResolvers(array($templatePathStack));
 
 $renderedContent = $renderer->render(
@@ -151,7 +151,7 @@ $template = realpath('view/hello-helper.phtml');
 $helperPluginManager = new \Zend\View\HelperPluginManager();
 $helperPluginManager->setService('name', new PrintName());
 
-$renderer = new \Lfj\ZfRenderer\Service\Renderer();
+$renderer = new \Lfj\ZfRenderer\Renderer();
 $renderer = $renderer->withHelperPluginManager($helperPluginManager);
 $renderedContent = $renderer->render(
     $template

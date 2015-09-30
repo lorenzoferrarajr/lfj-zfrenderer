@@ -1,6 +1,6 @@
 <?php
 
-namespace Lfj\ZfRenderer\Service;
+namespace Lfj\ZfRenderer;
 
 use Zend\View\Model\ViewModel;
 use Zend\View\Resolver\ResolverInterface;
