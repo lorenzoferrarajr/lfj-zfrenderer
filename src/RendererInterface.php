@@ -26,10 +26,10 @@ interface RendererInterface
     public function withEventManager(EventManagerInterface $events);
 
     /**
-     * @param HelperPluginManager $helperPluginManager
+     * @param HelperPluginManager $helpers
      * @return Renderer
      */
-    public function withHelperPluginManager(HelperPluginManager $helperPluginManager);
+    public function withHelperPluginManager(HelperPluginManager $helpers);
 
     /**
      * @param array $resolvers collection of Zend\View\Resolver\ResolverInterface objects

@@ -113,10 +113,10 @@ final class Renderer implements RendererInterface
     /**
      * @inheritdoc
      */
-    public function withHelperPluginManager(HelperPluginManager $helperPluginManager)
+    public function withHelperPluginManager(HelperPluginManager $helpers)
     {
         $clone = clone $this;
-        $clone->helpers = $helperPluginManager;
+        $clone->helpers = $helpers;
         return $clone;
     }
 
