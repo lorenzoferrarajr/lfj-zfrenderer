@@ -10,55 +10,55 @@ class ImmutabilityTest extends PHPUnit_Framework_TestCase
     public function testClone()
     {
         $eventManager = new EventManager();
-        $helperPluginManager = new HelperPluginManager();
+        $helpers = new HelperPluginManager();
 
         $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
         $eventsProperty = $class->getProperty("events");
         $eventsProperty->setAccessible(true);
-        $helperPluginManagerProperty = $class->getProperty("helperPluginManager");
-        $helperPluginManagerProperty->setAccessible(true);
+        $helpersProperty = $class->getProperty("helpers");
+        $helpersProperty->setAccessible(true);
 
-        $renderer = new Renderer($helperPluginManager, $eventManager);
+        $renderer = new Renderer($helpers, $eventManager);
         $clone = clone $renderer;
 
         $this->assertNotSame($eventsProperty->getValue($renderer), $eventsProperty->getValue($clone));
-        $this->assertSame($helperPluginManagerProperty->getValue($renderer), $helperPluginManagerProperty->getValue($clone));
+        $this->assertSame($helpersProperty->getValue($renderer), $helpersProperty->getValue($clone));
     }
 
     public function testNewRendererWithEventManager()
     {
-        $eventManager1 = new EventManager();
-        $eventManager2 = new EventManager();
+        $events1 = new EventManager();
+        $events2 = new EventManager();
 
         $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
         $property = $class->getProperty("events");
         $property->setAccessible(true);
 
-        $rendererWithEventManager1 = new Renderer(null, $eventManager1);
-        $rendererWithEventManager2 = $rendererWithEventManager1->withEventManager($eventManager2);
+        $rendererWithEvents1 = new Renderer(null, $events1);
+        $rendererWithEvents2 = $rendererWithEvents1->withEventManager($events2);
 
-        $this->assertSame($property->getValue($rendererWithEventManager1), $eventManager1);
-        $this->assertSame($property->getValue($rendererWithEventManager2), $eventManager2);
-        $this->assertNotSame($rendererWithEventManager1, $rendererWithEventManager2);
-        $this->assertNotSame($property->getValue($rendererWithEventManager1), $property->getValue($rendererWithEventManager2));
+        $this->assertSame($property->getValue($rendererWithEvents1), $events1);
+        $this->assertSame($property->getValue($rendererWithEvents2), $events2);
+        $this->assertNotSame($rendererWithEvents1, $rendererWithEvents2);
+        $this->assertNotSame($property->getValue($rendererWithEvents1), $property->getValue($rendererWithEvents2));
     }
 
     public function testNewRendererWithHelperPluginManager()
     {
-        $helperPluginManager1 = new HelperPluginManager();
-        $helperPluginManager2 = new HelperPluginManager();
+        $helpers1 = new HelperPluginManager();
+        $helpers2 = new HelperPluginManager();
 
         $class = new ReflectionClass('Lfj\ZfRenderer\Renderer');
-        $property = $class->getProperty("helperPluginManager");
+        $property = $class->getProperty("helpers");
         $property->setAccessible(true);
 
-        $rendererWithHelperPluginManager1 = new Renderer($helperPluginManager1);
-        $rendererWithHelperPluginManager2 = $rendererWithHelperPluginManager1->withHelperPluginManager($helperPluginManager2);
+        $rendererWithHelpers1 = new Renderer($helpers1);
+        $rendererWithHelpers2 = $rendererWithHelpers1->withHelperPluginManager($helpers2);
 
-        $this->assertSame($property->getValue($rendererWithHelperPluginManager1), $helperPluginManager1);
-        $this->assertSame($property->getValue($rendererWithHelperPluginManager2), $helperPluginManager2);
-        $this->assertNotSame($rendererWithHelperPluginManager1, $rendererWithHelperPluginManager2);
-        $this->assertNotSame($property->getValue($rendererWithHelperPluginManager1), $property->getValue($rendererWithHelperPluginManager2));
+        $this->assertSame($property->getValue($rendererWithHelpers1), $helpers1);
+        $this->assertSame($property->getValue($rendererWithHelpers2), $helpers2);
+        $this->assertNotSame($rendererWithHelpers1, $rendererWithHelpers2);
+        $this->assertNotSame($property->getValue($rendererWithHelpers1), $property->getValue($rendererWithHelpers2));
 
     }
 

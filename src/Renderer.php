@@ -17,7 +17,7 @@ final class Renderer implements RendererInterface
     /**
      * @var HelperPluginManager
      */
-    private $helperPluginManager;
+    private $helpers;
 
     /**
      * @var EventManagerInterface
@@ -30,13 +30,13 @@ final class Renderer implements RendererInterface
     private $resolvers;
 
     public function __construct(
-        HelperPluginManager $helperPluginManager = null,
+        HelperPluginManager $helpers = null,
         EventManager $events = null,
         array $resolvers = array()
     )
     {
         $this->events = null !== $events ? $events : new EventManager();
-        $this->helperPluginManager = null !== $helperPluginManager ? $helperPluginManager : new HelperPluginManager();
+        $this->helpers = null !== $helpers ? $helpers : new HelperPluginManager();
         $this->resolvers = $resolvers;
     }
 
@@ -67,7 +67,7 @@ final class Renderer implements RendererInterface
     {
         $ar = new Resolver\AggregateResolver();
 
-        $helper = $this->helperPluginManager;
+        $helper = $this->helpers;
 
         $map = new Resolver\TemplateMapResolver(array(
             $name => $path
@@ -116,7 +116,7 @@ final class Renderer implements RendererInterface
     public function withHelperPluginManager(HelperPluginManager $helperPluginManager)
     {
         $clone = clone $this;
-        $clone->helperPluginManager = $helperPluginManager;
+        $clone->helpers = $helperPluginManager;
         return $clone;
     }
 
