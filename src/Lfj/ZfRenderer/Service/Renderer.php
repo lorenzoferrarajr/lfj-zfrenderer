@@ -42,8 +42,12 @@ final class Renderer implements RendererInterface, EventManagerAwareInterface
      *
      * @inheritdoc
      */
-    public function render($template, array $variables = array(), array $resolvers = array())
+    public function render($template, array $variables = array(), array $resolvers = null)
     {
+        if (null === $resolvers) {
+            $resolvers = array();
+        }
+
         $view = $this->createView('view', $template, $resolvers);
 
         $model = new ViewModel();
